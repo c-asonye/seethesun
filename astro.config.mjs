@@ -7,11 +7,14 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://c-asonye.github.io/seethesun",
+  base: "/seethesun",
   integrations: [mdx(), sitemap()],
   adapter: cloudflare({
     platformProxy: {
       enabled: true,
     },
   }),
+  build: {
+    outDir: './dist',
+  },
 });

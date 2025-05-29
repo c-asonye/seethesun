@@ -27,7 +27,7 @@ jobs:
         run: npm run build # Or 'yarn build' or 'pnpm build'
 
       - name: Add .nojekyll file
-        run: touch dist/.nojekyll # Important: Add .nojekyll to the *output directory*
+        run: touch .dist/.nojekyll # Important: Add .nojekyll to the *output directory*
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4 # Recommended action for gh-pages deployment
