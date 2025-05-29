@@ -1,0 +1,38 @@
+name: Deploy Astro to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or 'master', or whatever your main branch is
+
+permissions:
+  contents: write # Needed to push to the gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Use a recent LTS version
+
+      - name: Install dependencies
+        run: npm install # Or 'yarn install' or 'pnpm install'
+
+      - name: Build Astro site
+        run: npm run build # Or 'yarn build' or 'pnpm build'
+
+      - name: Add .nojekyll file
+        run: touch dist/.nojekyll # Important: Add .nojekyll to the *output directory*
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4 # Recommended action for gh-pages deployment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # The directory Astro builds to
+          publish_branch: gh-pages # The branch GitHub Pages serves from
+          cname: ${{ secrets.CNAME_RECORD }} # Optional, if you're using a custom domain and storing it in a secret
